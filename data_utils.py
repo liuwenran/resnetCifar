@@ -6,6 +6,9 @@ from scipy.misc import imread
 
 import numpy as np
 import lmdb
+
+caffe_path = os.path.join('/home/liuwr/liuwenran/caffe','caffe','python')
+sys.path.insert(0, caffe_path)
 import caffe
 
 def load_CIFAR_batch(filename, pad=True):
@@ -56,6 +59,7 @@ def py2lmdb(X, y, save_path):
   # this, you might want to try saving fewer entries in a single
   # transaction.
   map_size = X.nbytes * 10
+  #map_size = X.nbytes
   
   env = lmdb.open(save_path, map_size=map_size)
   
@@ -75,7 +79,7 @@ def py2lmdb(X, y, save_path):
 
 
 if __name__ == '__main__':
-  root = sys.argv[1]
+  root = '/home/liuwr/liuwenran/resnet-cifar10-caffe/cifar-10-batches-py/'
   Xtr, Ytr, Xte, Yte = load_CIFAR10(root)
   paths = [ os.path.join(root, i) for i in ['train', 'test']]
   py2lmdb(Xtr, Ytr, paths[0])
